@@ -1,0 +1,10 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+#      password: bitnami
+#      timeout: 500ms
+#      cluster:
+#        nodes: 172.19.0.6:6371,localhost:6372,localhost:6373,localhost:6374,localhost:6375,localhost:6379
+#        max-redirects: 3
