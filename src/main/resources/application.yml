@@ -8,3 +8,21 @@ spring:
 #      cluster:
 #        nodes: 172.19.0.6:6371,localhost:6372,localhost:6373,localhost:6374,localhost:6375,localhost:6379
 #        max-redirects: 3
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test
+    #    url:  jdbc:h2:mem:testdb
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+
+  main:
+    allow-bean-definition-overriding: true
