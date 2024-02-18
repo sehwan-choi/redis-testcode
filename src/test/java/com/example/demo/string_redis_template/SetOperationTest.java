@@ -1,6 +1,5 @@
 package com.example.demo.string_redis_template;
 
-import com.example.demo.TestObject;
 import jakarta.annotation.Resource;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +10,7 @@ import org.springframework.data.redis.core.SetOperations;
 
 import java.util.Set;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 public class SetOperationTest {
     //     특정 오퍼레이션 직접 주입
     @Resource(name = "stringRedisTemplate")

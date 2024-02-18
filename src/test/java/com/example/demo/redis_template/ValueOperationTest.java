@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.ValueOperations;
 
 import java.time.Duration;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 public class ValueOperationTest {
 
     //     특정 오퍼레이션 직접 주입

@@ -2,9 +2,13 @@ package com.example.demo.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 @SpringBootTest
+@SpringBootApplication(scanBasePackages = "com.example.demo.repository")
+@EnableRedisRepositories
 public class CrudTest {
 
     @Autowired

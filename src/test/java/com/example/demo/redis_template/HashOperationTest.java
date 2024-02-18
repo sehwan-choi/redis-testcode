@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.HashOperations;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 @DisplayName("RedisTemplate-HashOperation: ")
 public class HashOperationTest {
 

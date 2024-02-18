@@ -10,11 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.SetOperations;
 
-import java.io.Serializable;
-import java.util.Objects;
 import java.util.Set;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 @DisplayName("RedisTemplate-SetOperation: ")
 public class SetOperationTest {
 

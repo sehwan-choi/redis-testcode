@@ -1,8 +1,12 @@
 package com.example.demo;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@NoArgsConstructor
 public class TestObject implements Serializable {
     private Integer id;
     private String name;

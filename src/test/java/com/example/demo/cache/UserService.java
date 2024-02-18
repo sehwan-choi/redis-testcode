@@ -14,9 +14,9 @@ public class UserService {
     private final UserRepository repository;
 
     public void init() {
-        repository.save(new User("choi", 10));
-        repository.save(new User("lee", 15));
-        repository.save(new User("park", 20));
+        repository.save(new User(1L, "choi", 10));
+        repository.save(new User(2L, "lee", 15));
+        repository.save(new User(3L, "park", 20));
     }
 
     @Cacheable(cacheNames = "user", key = "#id")
@@ -27,7 +27,9 @@ public class UserService {
     @CachePut(cacheNames = "user", key = "#id")
     @Transactional
     public User updateUser(Long id, String name) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException());
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException());
+        user.setName(name);
+        return user;
     }
 
     @CacheEvict(cacheNames = "user", key = "#id")

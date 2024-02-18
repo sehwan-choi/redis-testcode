@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import java.util.Iterator;
 import java.util.Set;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 public class ZSetOperationTest {
 
     @Resource(name = "stringRedisTemplate")

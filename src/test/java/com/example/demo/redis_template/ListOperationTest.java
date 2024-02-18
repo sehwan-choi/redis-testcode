@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.ListOperations;
 
-@SpringBootTest
+@SpringBootTest(classes = MainTest.class)
 @DisplayName("RedisTemplate-ListOperation: ")
 public class ListOperationTest {
 

@@ -1,9 +1,6 @@
 package com.example.demo.cache;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -14,11 +11,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @ToString
-@RedisHash("user")
+@Table(name = "users")
+@EqualsAndHashCode
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Setter
