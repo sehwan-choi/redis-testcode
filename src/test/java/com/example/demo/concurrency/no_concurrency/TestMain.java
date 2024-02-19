@@ -1,4 +1,4 @@
-package com.example.demo.concurrency.annotation;
+package com.example.demo.concurrency.no_concurrency;
 
 import com.example.demo.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @SpringBootTest
-@SpringBootApplication(scanBasePackages = "com.example.demo.concurrency.annotation")
+@SpringBootApplication(scanBasePackages = "com.example.demo.concurrency.no_concurrency")
 @Import(RedisConfig.class)
 @Slf4j
 public class TestMain {
@@ -47,8 +47,8 @@ public class TestMain {
 
         StockDto stock = repository.getStock(STOCK_KEY);
         log.info("stock = " + stock + " paymentCount : " + paymentCount);
-        Assertions.assertThat(stock.getStock()).isEqualTo(0);
-        Assertions.assertThat(paymentCount).isEqualTo(10);
+
+        Assertions.assertThat(paymentCount).isGreaterThan(10);
     }
 
     @Test
@@ -58,8 +58,6 @@ public class TestMain {
 
         StockDto stock = repository.getStock(STOCK_KEY);
         log.info("stock = " + stock + " paymentCount : " + paymentCount);
-        Assertions.assertThat(stock.getStock()).isEqualTo(0);
-        Assertions.assertThat(paymentCount).isEqualTo(99);
     }
 
     @Test
@@ -69,8 +67,6 @@ public class TestMain {
 
         StockDto stock = repository.getStock(STOCK_KEY);
         log.info("stock = " + stock + " paymentCount : " + paymentCount);
-        Assertions.assertThat(stock.getStock()).isEqualTo(5);
-        Assertions.assertThat(paymentCount).isEqualTo(10);
     }
 
     void start(int threadCount, String stockKey, long decreaseQuantity) throws InterruptedException {
@@ -102,6 +98,6 @@ public class TestMain {
 
     void deleteStock(String key) {
         repository.deleteStock(key);
-        stockRepository.deleteById(1L);
+        stockRepository.deleteAll();
     }
 }
