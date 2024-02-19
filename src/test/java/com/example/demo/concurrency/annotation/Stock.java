@@ -25,8 +25,8 @@ public class Stock implements Serializable {
     @Setter
     private long quantity;
 
-    @Version
-    private int version;
+//    @Version
+//    private int version;
 
     public Stock(String name, long quantity) {
         this.name = name;

@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 public class RedisLockAop {
 
     private final RedissonClient redissonClient;
-//    private final RedisOperationTransaction redissonCallTransaction;
+    private final RedisOperationTransaction redissonCallTransaction;
 
     @Around("@annotation(com.example.demo.concurrency.annotation.redislock.RedisLock)")
     public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -38,16 +38,13 @@ public class RedisLockAop {
             /* get lock */
             boolean isPossible = rock.tryLock(redisLock.waitTime(), redisLock.leaseTime(), redisLock.timeUnit());
             if (!isPossible) {
-                log.info("[" + Thread.currentThread().getName() + "]isPossible = " + isPossible);
                 return false;
             }
-            log.info("[" + Thread.currentThread().getName() + "]isPossible = " + isPossible);
 
             log.info("[" + Thread.currentThread().getName() + "]RedisLock Key : " + key);
 
             /* service call */
-//            return redissonCallTransaction.proceed(joinPoint);
-            return new RedisOperationTransaction().proceed(joinPoint);
+            return redissonCallTransaction.proceed(joinPoint);
         } finally {
             try {
                 rock.unlock();

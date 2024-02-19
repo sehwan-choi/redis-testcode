@@ -19,12 +19,10 @@ public class StockDto implements Serializable {
     private long stock;
 
     public void decrease(Long quantity) {
-        log.info("[" + Thread.currentThread().getName() + "]StockDto decrease start ====> " + this.stock);
         if ((this.stock - quantity) < 0) {
-            log.info("[" + Thread.currentThread().getName() + "]NoStockException! = " + this.stock);
             throw new NoStockException(this.stock);
         }
         this.stock -= quantity;
-        log.info("[" + Thread.currentThread().getName() + "]StockDto decrease end ====> " + this.stock);
+        log.info("[" + Thread.currentThread().getName() + "]StockDto decrease success ====> [" + (this.stock+1) + "] -> [" + this.stock + "]");
     }
 }

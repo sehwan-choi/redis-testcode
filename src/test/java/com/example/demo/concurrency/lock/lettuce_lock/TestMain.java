@@ -1,6 +1,7 @@
 package com.example.demo.concurrency.lock.lettuce_lock;
 
 import com.example.demo.RedisConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 @SpringBootTest
 @SpringBootApplication(scanBasePackages = "com.example.demo.concurrency.lock.lettuce_lock")
 @Import(RedisConfig.class)
+@Slf4j
 public class TestMain {
 
     private static final String STOCK_KEY = "lettuce_stock";
@@ -34,19 +36,26 @@ public class TestMain {
 
     @Test
     public void 동시에_100개_요청() throws InterruptedException {
-        int threadCount = 100;
+        start(100, STOCK_KEY, 1L);
+
+        StockDto stock = redisRepository.getStock(STOCK_KEY);
+        Assertions.assertThat(stock.getStock()).isEqualTo(0);
+        System.out.println("stock = " + stock);
+    }
+
+    void start(int threadCount, String stockKey, long decreaseQuantity) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
         for(int i=0; i<threadCount; i++){
             executorService.submit(()->{
                 try {
-                    Long decrease = facade.decrease(STOCK_KEY, 1L);
-                    System.out.println("[" + Thread.currentThread().getName() + "]구매 성공! stockQuantity : " + decrease);
-                } catch (NoStockException e2) {
-                    System.out.println("[" + Thread.currentThread().getName() + "]구매 실패! stock : " + e2.getStock());
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    Long decrease = facade.decrease(stockKey, decreaseQuantity);
+                    log.info("[" + Thread.currentThread().getName() + "]구매 성공! stockQuantity : " + decrease);
+                } catch (com.example.demo.concurrency.annotation.NoStockException e2) {
+                    log.info("[" + Thread.currentThread().getName() + "]구매 실패! stock : " + e2.getStock());
+                } catch (Exception e) {
+                    log.info("e = " + e);
                 } finally {
                     latch.countDown();
                 }
@@ -54,10 +63,6 @@ public class TestMain {
         }
 
         latch.await();
-
-        StockDto stock = redisRepository.getStock(STOCK_KEY);
-        Assertions.assertThat(stock.getStock()).isEqualTo(0);
-        System.out.println("stock = " + stock);
     }
 
     void setStock(String key, Long quantity) {

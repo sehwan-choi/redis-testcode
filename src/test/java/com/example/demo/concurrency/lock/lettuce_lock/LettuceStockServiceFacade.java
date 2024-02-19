@@ -1,14 +1,18 @@
 package com.example.demo.concurrency.lock.lettuce_lock;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class LettuceStockServiceFacade {
 
     private final RedisLockRepository redisLockRepository;
     private final StockService stockService;
+
+    private static int count = 1;
 
     public Long decrease(String key, Long quantity) throws InterruptedException {
 
@@ -17,6 +21,7 @@ public class LettuceStockServiceFacade {
         }
 
         try{
+            log.info("[" + Thread.currentThread().getName() + "]start decrease [" + count++ + "]");
             return stockService.decrease(key,quantity);
         } finally{
             redisLockRepository.unlock(key);
