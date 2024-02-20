@@ -1,4 +1,4 @@
-package com.example.demo.concurrency.annotation;
+package com.example.demo.concurrency.annotation.redislock_timeout;
 
 
 import lombok.AllArgsConstructor;

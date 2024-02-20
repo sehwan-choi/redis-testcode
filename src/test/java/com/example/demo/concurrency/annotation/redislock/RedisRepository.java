@@ -1,4 +1,4 @@
-package com.example.demo.concurrency.annotation;
+package com.example.demo.concurrency.annotation.redislock;
 
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;

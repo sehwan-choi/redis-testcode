@@ -1,10 +1,8 @@
-package com.example.demo.concurrency.annotation;
+package com.example.demo.concurrency.annotation.redislock;
 
-import com.example.demo.concurrency.annotation.redislock.RedisLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,8 +14,8 @@ public class StockService {
     private final RedisRepository redisRepository;
     private final StockRepository stockRepository;
 
-    @RedisLock(key = "redis_lock")
-    public Long decrease(String key, Long quantity) {
+    @TransactionalRedisLock(key = "redis_lock")
+    public Long decrease(String key, Long quantity) throws InterruptedException {
         log.info("[" + Thread.currentThread().getName() + "]start decrease [" + count++ + "]");
         Long redisStock = redisRepository.decreaseStock(key, quantity);
         Stock stock = stockRepository.findByName(key).get();

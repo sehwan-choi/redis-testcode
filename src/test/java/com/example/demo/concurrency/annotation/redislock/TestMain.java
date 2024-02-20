@@ -1,4 +1,4 @@
-package com.example.demo.concurrency.annotation;
+package com.example.demo.concurrency.annotation.redislock;
 
 import com.example.demo.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @SpringBootTest
-@SpringBootApplication(scanBasePackages = "com.example.demo.concurrency.annotation")
+@SpringBootApplication(scanBasePackages = "com.example.demo.concurrency.annotation.redislock")
 @Import(RedisConfig.class)
 @Slf4j
 public class TestMain {

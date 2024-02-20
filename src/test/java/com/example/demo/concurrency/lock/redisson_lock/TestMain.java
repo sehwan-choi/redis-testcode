@@ -1,6 +1,7 @@
 package com.example.demo.concurrency.lock.redisson_lock;
 
 import com.example.demo.RedisConfig;
+import com.example.demo.concurrency.annotation.redislock.NoStockException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class TestMain {
                 try {
                     Long decrease = facade.decrease(stockKey, decreaseQuantity);
                     log.info("[" + Thread.currentThread().getName() + "]구매 성공! stockQuantity : " + decrease);
-                } catch (com.example.demo.concurrency.annotation.NoStockException e2) {
+                } catch (NoStockException e2) {
                     log.info("[" + Thread.currentThread().getName() + "]구매 실패! stock : " + e2.getStock());
                 } catch (Exception e) {
                     log.info("e = " + e);

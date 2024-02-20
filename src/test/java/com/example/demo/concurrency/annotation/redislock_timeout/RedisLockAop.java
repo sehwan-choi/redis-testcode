@@ -1,4 +1,4 @@
-package com.example.demo.concurrency.annotation.redislock;
+package com.example.demo.concurrency.annotation.redislock_timeout;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class RedisLockAop {
     private final RedissonClient redissonClient;
     private final RedisOperationTransaction redissonCallTransaction;
 
-    @Around("@annotation(com.example.demo.concurrency.annotation.redislock.TransactionalRedisLock)")
+    @Around("@annotation(com.example.demo.concurrency.annotation.redislock_timeout.TransactionalRedisLock)")
     public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -38,6 +38,7 @@ public class RedisLockAop {
             /* get lock */
             boolean isPossible = rock.tryLock(redisLock.waitTime(), redisLock.leaseTime(), redisLock.timeUnit());
             if (!isPossible) {
+                log.info("[" + Thread.currentThread().getName() + "]isPossible : " + key);
                 return false;
             }
 
@@ -46,9 +47,10 @@ public class RedisLockAop {
             /* service call */
             return redissonCallTransaction.proceed(joinPoint);
         } catch (Exception e){
-            System.out.println("AOP Excpetion = " + e);
+            log.info("AOP Excpetion = " + e);
             throw e;
         } finally {
+            Exception throable = null;
             try {
                 rock.unlock();
             } catch (IllegalMonitorStateException e) {
